@@ -33,11 +33,11 @@ gulp.task('sass', function(){
     }))
 });
 
-// Task to watch for changes in sass, js and html files after browserSync has finished executing
+// Task to watch for changes in scss, js and html files after browserSync has finished executing
 gulp.task('watch', ['browserSync'], function() {
   gulp.watch('app/scss/**/*.scss', ['sass']);
-  gulp.watch('app/*.html', browserSync.reload);
   gulp.watch('app/js/**/*.js', browserSync.reload);
+  gulp.watch('app/*.html', browserSync.reload);
 })
 
 // Task to start server for browserSync

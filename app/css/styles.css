@@ -1,2 +1,61 @@
-.testing {
-  width: 71.42857%; }
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+body {
+  background: linear-gradient(#f22525, #990000);
+  margin: 0 auto;
+  font-family: Montserrat;
+  height: 100vh; }
+
+.calculator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 60px repeat(5, 1fr);
+  grid-gap: 14px;
+  padding: 20px;
+  margin: 0 auto;
+  width: 220px;
+  height: 350px; }
+
+.result {
+  background: #d85656;
+  border: solid 1px #ed6d6d;
+  grid-column: 1 / 5;
+  color: white;
+  font-size: 2em;
+  text-align: right;
+  padding: 10px;
+  box-shadow: inset 0 0 8px #262626; }
+
+.double {
+  grid-column: 1 / 3; }
+
+.single, .double, .result {
+  border-radius: 15px;
+  font-weight: bold;
+  outline: none;
+  position: relative; }
+
+.red {
+  background: #ce1616;
+  border: solid 1px #ed6d6d;
+  color: white;
+  font-size: 1em;
+  box-shadow: 0 3px #262626; }
+
+.white {
+  border: solid 1px #ed6d6d;
+  color: #8e0f0f;
+  font-size: 1em;
+  box-shadow: 0 3px #262626; }
+
+.left-aligned {
+  text-align: left;
+  padding-left: 15px; }
+
+button:hover {
+  cursor: pointer;
+  top: 1px;
+  box-shadow: 0 2px #262626; }
+
+button:active {
+  top: 3px;
+  box-shadow: none; }
