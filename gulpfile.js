@@ -5,6 +5,7 @@ Gulp runs in a folder structure like this:
 - app/              (all files for development)
   - index.html
   - css/
+  - fonts
   - img/
   - js/
   - scss/
@@ -20,6 +21,14 @@ Gulp runs in a folder structure like this:
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
+const useref = require('gulp-useref');
+const uglify = require('gulp-uglify');
+const gulpIf = require('gulp-if');
+const cssnano = require('gulp-cssnano');
+const imagemin = require('gulp-imagemin');
+const cache = require('gulp-cache');
+const del = require('del');
+const runSequence = require('run-sequence');
 
 // Task to compile sass to css
 gulp.task('sass', function(){
@@ -49,35 +58,55 @@ gulp.task('browserSync', function() {
   })
 })
 
-// gulp.task('default', defaultTask);
+// Concat js files (marked in html by <!--build:js js/main.min.js--><!--endbuild-->) and minifies it
+gulp.task('useref', function(){
+  return gulp.src('app/*.html')
+    .pipe(useref())
+    // Check if file is js and minify
+    .pipe(gulpIf('*.js', uglify()))
+    // Check if it is a css file and minify
+    .pipe(gulpIf('*.css', cssnano()))
+    .pipe(gulp.dest('dist'))
+});
 
-// gulp.task('browser-sync', function() {
-//   browserSync.init({
-//     server: {
-//       baseDir: "./"
-//     }
-//   });
-// });
+// Minify images
+gulp.task('images', function(){
+  return gulp.src('app/images/**/*.+(png|jpg|gif|svg')
+  // Cache minified images
+  .pipe(cache(imagemin({
+    // Set interlaced for gifs
+    interlaced: true
+  })))
+  .pipe(gulp.dest('dist/img'))
+});
 
-// gulp.task('serve', ['sass'], function() {
-//   browserSync.init({
-//     server:"./"
-//   });
+// Move fonts from app to dist
+gulp.task('fonts', function() {
+  return gulp.src('app/fonts/**/*')
+  .pipe(gulp.dest('dist/fonts'))
+});
 
-//   gulp.watch("./sass/*.scss", ['sass']);
-//   gulp.watch("*.html").on('change', browserSync.reload);
-// });
+// Delete unused files in /dist
+gulp.task('clea:dist', function() {
+  return del.sync('dist');
+});
 
-// gulp.task('sass', function() {
-//   return gulp.src("./sass/*.scss")
-//     .pipe(sass())
-//     .pipe(gulp.dest("./css"))
-//     .pipe(browserSync.stream());
-// });
+// Delete cache images
+gulp.task('cache:clear', function(callback) {
+  return cache.clearAll(callback);
+});
 
-// function defaultTask(done) {
-//   // place code for your default task here
-//   done();
-// }
+// Build the dist files
+gulp.task('build', function(callback) {
+  runSequence('clean:dist',
+  ['sass', ' useref', 'images', 'fonts'],
+  callback
+  )
+});
 
-// gulp.task('default', ['serve']);
+// Preprocess js, css and watch over dev files
+gulp.task('default', function(callback) {
+  runSequence(['sass', 'browserSync', 'watch'],
+  callback
+  )
+});
