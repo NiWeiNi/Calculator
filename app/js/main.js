@@ -52,14 +52,15 @@ function textToNumber(text) {
 calculator.addEventListener("click", () => {
   // Check if element clicked is a button
   if (event.target.type === "submit") {
-    let number = parseFloat(event.target.innerText);
     // console.log(event.target.innerText === "CLEAR");
     // CHeck for content of the button, number, operation, equal or clear
     if (event.target.innerText === ".") {
       numberText = numberText + ".";
       display(numberText);
       console.log(numberText);
-    } else if (!isNaN(number)) {
+    }
+    // Convert button content into number and check if it is a number
+    else if (!isNaN(parseFloat(event.target.innerText))) {
       //ToDo
       numberText = numberText + event.target.innerText;
       console.log(numberText);
