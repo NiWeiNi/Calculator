@@ -38,7 +38,7 @@ function display(quote) {
 // Define clear memory and display function
 function clear() {
   numberText = "";
-  display(numberText);
+  display("0");
   numberX = 0;
   numberY = 0;
 }
@@ -49,48 +49,50 @@ function textToNumber(text) {
 }
 
 // Add event listener
-
 calculator.addEventListener("click", () => {
-  let number = parseFloat(event.target.innerText);
-  // console.log(event.target.innerText === "CLEAR");
-  // CHeck for content of the button, number, operation, equal or clear
-  if (event.target.innerText === ".") {
-    numberText = numberText + ".";
-    display(numberText);
-    console.log(numberText);
-  } else if (!isNaN(number)) {
-    //ToDo
-    numberText = numberText + event.target.innerText;
-    console.log(numberText);
-    display(numberText);
-  } else if (event.target.innerText == "CLEAR") {
-    clear();
-  } else if (event.target.innerText === "+") {
-    operation = "+";
-    if (numberX !== 0) {
-      numberX = numberX + textToNumber(numberText);
-      display(numberX);
-      console.log(numberX);
-      numberText = "";
-    } else {
-      numberX = textToNumber(numberText);
-      numberText = "";
-    }
-  } else if (event.target.innerText === "-") {
-    operation = "-";
-  } else if (event.target.innerText === "*") {
-    operation = "*";
-  } else if (event.target.innerText === "/") {
-    operation = "/"
-  } else if (event.target.innerText === "=") {
-    numberY = textToNumber(numberText);
-    switch (operation) {
-      case "+":
-        numberX = addition(numberX, numberY);
+  // Check if element clicked is a button
+  if (event.target.type === "submit") {
+    let number = parseFloat(event.target.innerText);
+    // console.log(event.target.innerText === "CLEAR");
+    // CHeck for content of the button, number, operation, equal or clear
+    if (event.target.innerText === ".") {
+      numberText = numberText + ".";
+      display(numberText);
+      console.log(numberText);
+    } else if (!isNaN(number)) {
+      //ToDo
+      numberText = numberText + event.target.innerText;
+      console.log(numberText);
+      display(numberText);
+    } else if (event.target.innerText == "CLEAR") {
+      clear();
+    } else if (event.target.innerText === "+") {
+      operation = "+";
+      if (numberX !== 0) {
+        numberX = numberX + textToNumber(numberText);
         display(numberX);
-        break;
-      case "-":
-        display(subtraction(numberX, numberY));
-        break;
-  }}
+        console.log(numberX);
+        numberText = "";
+      } else {
+        numberX = textToNumber(numberText);
+        numberText = "";
+      }
+    } else if (event.target.innerText === "-") {
+      operation = "-";
+    } else if (event.target.innerText === "*") {
+      operation = "*";
+    } else if (event.target.innerText === "/") {
+      operation = "/"
+    } else if (event.target.innerText === "=") {
+      numberY = textToNumber(numberText);
+      switch (operation) {
+        case "+":
+          numberX = addition(numberX, numberY);
+          display(numberX);
+          break;
+        case "-":
+          display(subtraction(numberX, numberY));
+          break;
+    }}
+  }
 });
