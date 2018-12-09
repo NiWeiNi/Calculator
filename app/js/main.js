@@ -52,7 +52,20 @@ function textToNumber(text) {
   return parseFloat(text);
 }
 
-// Define auxiliar function to set up
+// Define function to set up type of arithmetic operation
+function setOperation(operatorText, convertToNumber, operatorFunction) {
+  // String that defines type of arithmetic operation 
+  operation = operatorText;
+  // Convert current string of "numbers" into numbers
+  numberLast = convertToNumber(numberText);
+  // Save last number typed as 
+  
+  numberResult = operatorFunction(numberResult, numberLast);
+  display(numberResult);
+  console.log(numberResult);
+  numberFirst = numberResult;
+  numberText = "0";
+}
 
 // Add event listener
 calculator.addEventListener("click", () => {
@@ -75,17 +88,7 @@ calculator.addEventListener("click", () => {
     }
     // Addition operation
     else if (event.target.innerText === "+") {
-      // Set operation to +
-      operation = "+";
-          numberLast = textToNumber(numberText);
-          if (numberLast !== 0) {
-            numberAux = numberLast;
-          }
-          numberResult = numberResult + numberAux;
-          display(numberResult);
-          console.log(numberResult);
-          numberFirst = numberResult;
-          numberText = "0";
+      setOperation("+", textToNumber, addition);
     } else if (event.target.innerText === "-") {
       operation = "-";
     } else if (event.target.innerText === "*") {
