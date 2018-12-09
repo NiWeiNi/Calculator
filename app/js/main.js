@@ -3,11 +3,13 @@ const buttons = document.querySelectorAll("button");
 const displayScreen = document.querySelector(".result");
 const calculator = document.querySelector(".calculator");
 
-// 
+// Higher scope variables
 let numberText = "";
 let operation = "";
-let numberX = 0;
-let numberY = 0;
+let numberAux = 0;
+let numberFirst = 0;
+let numberLast = 0;
+let numberResult = 0;
 
 // Define arithmetic functions
 // Add function
@@ -39,14 +41,18 @@ function display(quote) {
 function clear() {
   numberText = "";
   display("0");
-  numberX = 0;
-  numberY = 0;
+  numberAux = 0;
+  numberFirst = 0;
+  numberLast = 0;
+  numberResult = 0;
 }
 
 // Define function that converts text to number
 function textToNumber(text) {
   return parseFloat(text);
 }
+
+// Define auxiliar function to set up
 
 // Add event listener
 calculator.addEventListener("click", () => {
@@ -61,38 +67,43 @@ calculator.addEventListener("click", () => {
     }
     // Convert button content into number and check if it is a number
     else if (!isNaN(parseFloat(event.target.innerText))) {
-      //ToDo
       numberText = numberText + event.target.innerText;
       console.log(numberText);
       display(numberText);
     } else if (event.target.innerText == "CLEAR") {
       clear();
-    } else if (event.target.innerText === "+") {
+    }
+    // Addition operation
+    else if (event.target.innerText === "+") {
+      // Set operation to +
       operation = "+";
-      if (numberX !== 0) {
-        numberX = numberX + textToNumber(numberText);
-        display(numberX);
-        console.log(numberX);
-        numberText = "";
-      } else {
-        numberX = textToNumber(numberText);
-        numberText = "";
-      }
+          numberLast = textToNumber(numberText);
+          if (numberLast !== 0) {
+            numberAux = numberLast;
+          }
+          numberResult = numberResult + numberAux;
+          display(numberResult);
+          console.log(numberResult);
+          numberFirst = numberResult;
+          numberText = "0";
     } else if (event.target.innerText === "-") {
       operation = "-";
     } else if (event.target.innerText === "*") {
       operation = "*";
     } else if (event.target.innerText === "/") {
       operation = "/"
-    } else if (event.target.innerText === "=") {
-      numberY = textToNumber(numberText);
+    }
+    // = botton clicked
+    else if (event.target.innerText === "=") {
+      numberLast = textToNumber(numberText);
+      // + operation clicked before
       switch (operation) {
         case "+":
-          numberX = addition(numberX, numberY);
-          display(numberX);
+          numberResult = addition(numberFirst, numberLast);
+          display(numberResult);
           break;
         case "-":
-          display(subtraction(numberX, numberY));
+          //ToDo
           break;
     }}
   }
