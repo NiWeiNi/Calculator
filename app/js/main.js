@@ -58,12 +58,14 @@ function setOperation(operatorText, convertToNumber, operatorFunction) {
   operation = operatorText;
   // Convert current string of "numbers" into numbers
   numberLast = convertToNumber(numberText);
-  // Save last number typed as 
-  
+  // Get result with the proper function
   numberResult = operatorFunction(numberResult, numberLast);
+  // Call display to show the result on screen
   display(numberResult);
   console.log(numberResult);
+  // Store the result to reuse later for further operations
   numberFirst = numberResult;
+  // Reset the input field to store new number
   numberText = "0";
 }
 
@@ -89,9 +91,30 @@ calculator.addEventListener("click", () => {
     // Addition operation
     else if (event.target.innerText === "+") {
       setOperation("+", textToNumber, addition);
-    } else if (event.target.innerText === "-") {
+    }
+    // Subtraction operation
+    else if (event.target.innerText === "-") {
       operation = "-";
-    } else if (event.target.innerText === "*") {
+      // Check if numberText has stored any previous number
+      if (numberText === "" ) {
+        numberText = "-";
+      } 
+      // If numberText is not empty store new number to numberAux
+      else {
+        numberAux = textToNumber(numberText);
+        // If numberFirst is empty, store the new value in there
+        if (numberFirst === 0) {
+          numberFirst = numberAux;
+        }
+        // Store the new value has numberLast if numberFirst is in use
+        else {
+          numberLast = numberAux;
+        }
+        // Reset numberText for new numbers input
+        numberText = ""; 
+      }
+    }
+    else if (event.target.innerText === "*") {
       operation = "*";
     } else if (event.target.innerText === "/") {
       operation = "/"
@@ -106,7 +129,10 @@ calculator.addEventListener("click", () => {
           display(numberResult);
           break;
         case "-":
-          //ToDo
+          numberLast = textToNumber(numberText);
+          numberResult = subtraction(numberFirst, numberLast);
+          display(numberResult);
+          numberFirst = numberResult;
           break;
     }}
   }
