@@ -29,7 +29,7 @@ function multiplication(x, y) {
 
 // Division function
 function division(x, y) {
-  rerturn (x / y);
+  return (x / y);
 }
 
 // Display clicked number in display
@@ -129,7 +129,18 @@ calculator.addEventListener("click", () => {
       numberText = ""; 
       
     } else if (event.target.innerText === "/") {
-      operation = "/"
+      operation = "/";
+      numberAux = textToNumber(numberText);
+        // If numberFirst is empty, store the new value in there
+        if (numberFirst === 0) {
+          numberFirst = numberAux;
+        }
+        // Store the new value has numberLast if numberFirst is in use
+        else {
+          numberLast = numberAux;
+        }
+        // Reset numberText for new numbers input
+      numberText = "";
     }
     // = botton clicked
     else if (event.target.innerText === "=") {
@@ -149,6 +160,12 @@ calculator.addEventListener("click", () => {
         case "*":
           numberLast = textToNumber(numberText);
           numberResult = multiplication(numberFirst, numberLast);
+          display(numberResult);
+          numberFirst = numberResult;
+          break;
+        case "/":
+          numberLast = textToNumber(numberText);
+          numberResult = division(numberFirst, numberLast);
           display(numberResult);
           numberFirst = numberResult;
           break;
