@@ -29,13 +29,16 @@ function multiplication(x, y) {
 
 // Division function
 function division(x, y) {
+  if (y === 0) {
+    return "Error"
+  }
   return (x / y);
 }
 
 // Display clicked number in display
 function display(quote) {
   // Check if input is a string
-  if (typeof quote === "string") {
+  if (typeof quote === "string" && quote !== "Error") {
     // Check if string fits on screen, if not use exponential notation
     // if (quote.length > 9) {
     //   quote = quote[0] + "." + quote.slice(1, 5) + "E" + quote.length;
@@ -43,11 +46,26 @@ function display(quote) {
       
     // }
     quoteNumber = parseFloat(quote);
-    console.log(quoteNumber);
-    return displayScreen.innerText = quoteNumber;
-  } else {
-    return displayScreen.innerText = quote;
+    if (quote.toString().length > 9) {
+      return displayScreen.innerText = quoteNumber.toExponential();
+    }
+    
+    else {
+      return displayScreen.innerText = quoteNumber;
   }
+  } 
+  else if (quote === "string" && quote === "Error") {
+    return displayScreen.innerText = quote
+  }
+  else {
+    if (quote.toString().length > 9) {
+      return displayScreen.innerText = quote.toExponential();
+    }
+    
+    else {
+      return displayScreen.innerText = quote;
+  }
+}
 }
 
 // Define clear memory and display function
