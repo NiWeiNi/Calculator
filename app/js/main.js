@@ -34,7 +34,20 @@ function division(x, y) {
 
 // Display clicked number in display
 function display(quote) {
-  return displayScreen.innerText = quote;
+  // Check if input is a string
+  if (typeof quote === "string") {
+    // Check if string fits on screen, if not use exponential notation
+    // if (quote.length > 9) {
+    //   quote = quote[0] + "." + quote.slice(1, 5) + "E" + quote.length;
+    // } else {
+      
+    // }
+    quoteNumber = parseFloat(quote);
+    console.log(quoteNumber);
+    return displayScreen.innerText = quoteNumber;
+  } else {
+    return displayScreen.innerText = quote;
+  }
 }
 
 // Define clear memory and display function
@@ -50,23 +63,6 @@ function clear() {
 // Define function that converts text to number
 function textToNumber(text) {
   return parseFloat(text);
-}
-
-// Define function to set up type of arithmetic operation
-function setOperation(operatorText, convertToNumber, operatorFunction) {
-  // String that defines type of arithmetic operation 
-  operation = operatorText;
-  // Convert current string of "numbers" into numbers
-  numberLast = convertToNumber(numberText);
-  // Get result with the proper function
-  numberResult = operatorFunction(numberResult, numberLast);
-  // Call display to show the result on screen
-  display(numberResult);
-  console.log(numberResult);
-  // Store the result to reuse later for further operations
-  numberFirst = numberResult;
-  // Reset the input field to store new number
-  numberText = "0";
 }
 
 // Add event listener
@@ -90,7 +86,18 @@ calculator.addEventListener("click", () => {
     }
     // Addition operation
     else if (event.target.innerText === "+") {
-      setOperation("+", textToNumber, addition);
+      operation = "+";
+      numberAux = textToNumber(numberText);
+        // If numberFirst is empty, store the new value in there
+        if (numberFirst === 0) {
+          numberFirst = numberAux;
+        }
+        // Store the new value has numberLast if numberFirst is in use
+        else {
+          numberLast = numberAux;
+        }
+        // Reset numberText for new numbers input
+      numberText = "";
     }
     // Subtraction operation
     else if (event.target.innerText === "-") {
@@ -148,8 +155,10 @@ calculator.addEventListener("click", () => {
       // + operation clicked before
       switch (operation) {
         case "+":
+          numberLast = textToNumber(numberText);
           numberResult = addition(numberFirst, numberLast);
           display(numberResult);
+          numberFirst = numberResult;
           break;
         case "-":
           numberLast = textToNumber(numberText);
