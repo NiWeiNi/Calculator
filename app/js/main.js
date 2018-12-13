@@ -35,6 +35,16 @@ function division(x, y) {
   return (x / y);
 }
 
+// Equal function
+function equal(textToNumber, operationFunction, display) {
+  // Assign result of the operation to numberResult
+  numberResult = operationFunction(numberFirst, numberLast);
+  // Display the result
+  display(numberResult);
+  // Assign result to numberFirst
+  numberFirst = numberResult;
+}
+
 // Display clicked number in display
 function display(quote) {
   // Check if input is a string
@@ -169,32 +179,24 @@ calculator.addEventListener("click", () => {
     }
     // = botton clicked
     else if (event.target.innerText === "=") {
+      // Convert last "number" typed to number type and store it in numberLast
       numberLast = textToNumber(numberText);
-      // + operation clicked before
       switch (operation) {
+        // Addition operation clicked before
         case "+":
-          numberLast = textToNumber(numberText);
-          numberResult = addition(numberFirst, numberLast);
-          display(numberResult);
-          numberFirst = numberResult;
+          equal(textToNumber, addition, display);
           break;
+        // Subtraction operation clicked before
         case "-":
-          numberLast = textToNumber(numberText);
-          numberResult = subtraction(numberFirst, numberLast);
-          display(numberResult);
-          numberFirst = numberResult;
+          equal(textToNumber, subtraction, display);
           break;
+        // Multiplication operation clicked before
         case "*":
-          numberLast = textToNumber(numberText);
-          numberResult = multiplication(numberFirst, numberLast);
-          display(numberResult);
-          numberFirst = numberResult;
+          equal(textToNumber, multiplication, display);
           break;
+        // Division operation clicked before
         case "/":
-          numberLast = textToNumber(numberText);
-          numberResult = division(numberFirst, numberLast);
-          display(numberResult);
-          numberFirst = numberResult;
+          equal(textToNumber, division, display);
           break;
     }}
   }
